@@ -7,6 +7,82 @@ import random
 import string
 import tkinter as tk
 
+QUESTIONS = {
+    "Prelim": [
+        {"question": "What does floor division (//) return in 20 // 3?", "choices": ["A) 6", "B) 6.66", "C) 2"], "correct": "A"},
+        {"question": "What does 'Syntax' refer to in Python?", "choices": ["A) A type of error", "B) The set of rules for writing a valid program", "C) A math operator"], "correct": "B"},
+        {"question": "What data type does the input() function return by default?", "choices": ["A) int", "B) float", "C) str (text)"], "correct": "C"},
+        {"question": "Which symbol starts a single-line comment in Python?", "choices": ["A) //", "B) #", "C) /*"], "correct": "B"},
+        {"question": "Which of the following is an INVALID Python variable name?", "choices": ["A) pyatos", "B) 123_diko_na_Kaya", "C) first_bf"], "correct": "B"},
+        {"question": "What data type holds the value of decimal number?", "choices": ["A) int", "B) float", "C) Sir mark"], "correct": "B"},
+        {"question": "What is the result of the exponentiation expression 12 ** 2?", "choices": ["A) 150", "B) 80", "C) 425"], "correct": "C"},
+        {"question": "What does Python use to define blocks of code inside an if statement?", "choices": ["A) Indentation (spaces)", "B) Curly braces { }", "C) Semicolons ;"], "correct": "A"},
+        {"question": "Which operator is used to assign a value to a variable in Python?", "choices": ["A) ==", "B) =", "C) <"], "correct": "B"},
+        {"question": "Which function converts user input into a decimal number?", "choices": ["A) int(input())", "B) float(input())", "C) bool(input())"], "correct": "B"},
+        {"question": "What happens to comments when a Python program runs?", "choices": ["A) They are printed on screen", "B) They cause an error", "C) They are completely ignored by Python"], "correct": "C"},
+        {"question": "Which is the correct way to print text in Python?", "choices": ["A) print(Hello Sir Jo)", "B) print('Hello Sir Jo')", "C) print[Hello Sir Jo]"], "correct": "B"},
+        {"question": "Are 'mark_regie' and 'Mark_Regie' treated as the same variable in Python?", "choices": ["A) Yes", "B) No, variable names are case-sensitive", "C) Only if they hold numbers"], "correct": "B"},
+        {"question": "Which operator returns the remainder of a division (e.g., 5 % 2 = 1)?", "choices": ["A) **", "B) %", "C) //"], "correct": "B"},
+        {"question": "Which function displays information on the screen in Python?", "choices": ["A) input()", "B) show()", "C) print()"], "correct": "C"},
+        {"question": "How do you write a multi-line comment in Python?", "choices": ["A) Triple quotes (\"\"\")", "B) Double hash (##)", "C) Single quotes (' ')"], "correct": "A"},
+        {"question": "Which function converts user input into a whole number (integer)?", "choices": ["A) int(input())", "B) float(input())", "C) str(input())"], "correct": "A"},
+        {"question": "Which of the following is a VALID Python variable name?", "choices": ["A) 1num", "B) 2too", "C) _pira"], "correct": "C"},
+        {"question": "In what order does Python solve math expressions with multiple operators?", "choices": ["A) PEMDAS", "B) Strictly right to left", "C) Addition before multiplication"], "correct": "A"},
+        {"question": "Python is case-sensitive. Are 'jomar' and 'Jomar' considered the same?", "choices": ["A) Yes", "B) No", "C) Only inside print()"], "correct": "B"},
+        {"question": "What must enclose text or strings inside print()?", "choices": ["A) Quotation marks (' ' or \" \")", "B) Parentheses ( )", "C) Square brackets [ ]"], "correct": "A"},
+        {"question": "Which character can a Python variable name start with?", "choices": ["A) A number (1-9)", "B) A letter or underscore (_)", "C) A hyphen (-)"], "correct": "B"},
+        {"question": "Which arithmetic operator divides two numbers and returns a decimal (e.g., 15 / 5 = 3.0)?", "choices": ["A) //", "B) %", "C) /"], "correct": "C"},
+        {"question": "How should numbers be written inside print() to be treated as actual numbers?", "choices": ["A) Without quotation marks, like print(2005)", "B) Inside single quotes, like print('2005')", "C) Inside double quotes, like print(\"2005\")"], "correct": "A"},
+        {"question": "What data type holds True or False?", "choices": ["A) true", "B) bool", "C) int)"], "correct": "B"}
+    ],
+
+    "Midterm": [
+        {"question": "What does the relational operator '!=' check in Python?","choices": ["A) If two values are equal", "B) If two values are not equal", "C) If the left value is bigger"],"correct": "B"},
+        {"question": "In an if-elif-else statement, what does Python do when it finds a True condition?","choices": ["A) Runs that block and skips the remaining elif/else blocks", "B) Runs all other elif blocks too","C) Always runs the else block at the end"], "correct": "A"},
+        {"question": "Which logical operator returns True only when ALL conditions are True?","choices": ["A) or", "B) not", "C) and"], "correct": "C"},
+        {"question": "In your Nested Condition example, what prints if condition1 is False?","choices": ["A) 'yes yes'", "B) 'aray kooo'", "C) 'Maliiiii'"], "correct": "C"},
+        {"question": "What type of value do relational operators like ==, >, and <= always return?","choices": ["A) True or False", "B) A whole number", "C) A text string"], "correct": "A"},
+        {"question": "In the Conditional Statement lesson, what is the output if score = 65 in 'if score >= 75: Passed else: Failed'?","choices": ["A) Passed", "B) Failed", "C) Error"], "correct": "B"},
+        {"question": "Which logical operator means 'KAHIT ISA LANG TRUE' (returns True if at least one condition is True)?","choices": ["A) and", "B) or", "C) not"], "correct": "B"},
+        {"question": "When is the inner condition (condition2) of a nested if statement checked?","choices": ["A) Only if the outer condition (condition1) is True", "B) Only if the outer condition is False","C) Always, even if condition1 is False"], "correct": "A"},
+        {"question": "What is the result of 10 >= 10 in Python?", "choices": ["A) False", "B) True", "C) 10"], "correct": "B"},
+        {"question": "In an if-else statement, how many blocks of code will be executed?","choices": ["A) Both the if and else blocks", "B) Only one of the blocks", "C) Neither block"], "correct": "B"},
+        {"question": "What does the 'not' logical operator do to a condition?","choices": ["A) Combines two conditions", "B) Reverses the result (True becomes False, False becomes True)", "C) Checks if two numbers are equal"], "correct": "B"},
+        {"question": "In your Nested Condition example, when does 'aray kooo' print?","choices": ["A) condition1 is True and condition2 is False", "B) condition1 is True and condition2 is True", "C) condition1 is False"], "correct": "A"},
+        {"question": "Which relational operator checks if two values are equal?", "choices": ["A) =", "B) ==", "C) !="],"correct": "B"},
+        {"question": "In the Conditional Statement lesson, what prints when score = 85?","choices": ["A) Excellent", "B) Very Good", "C) Passed"], "correct": "B"},
+        {"question": "If is_raining = False, what does 'if not is_raining:' evaluate to?","choices": ["A) False", "B) True", "C) None"], "correct": "B"},
+        {"question": "What happens in a simple 'if' statement when the condition evaluates to False?","choices": ["A) The indented block is skipped", "B) The indented block still runs","C) Python crashes with an error"], "correct": "A"},
+        {"question": "What is the output of 'print(score >= 75)' when score = 85?","choices": ["A) False", "B) True", "C) 85"], "correct": "B"},
+        {"question": "If day = 'Saturday', what is the result of (day == 'Saturday' or day == 'Sunday')?","choices": ["A) True", "B) False", "C) Error"], "correct": "A"},
+        {"question": "What is a nested condition in Python?","choices": ["A) A loop inside a print statement", "B) A condition inside another condition","C) Two variables with the same name"], "correct": "B"},
+        {"question": "What is the result of 5 < 10 in Python?", "choices": ["A) True", "B) False", "C) 5"],"correct": "A"}
+    ],
+
+    "Final": [
+        {"question": "What does 'iteration' mean in programming?","choices": ["A) Stopping a program early", "B) Repeating a set of instructions over and over","C) Storing text inside a variable"], "correct": "B"},
+        {"question": "In range(1, 6), is the stop value (6) included in the output?","choices": ["A) Yes, it prints 1 to 6", "B) No, the stop value is excluded (prints 1 to 5)","C) Only when used in a while loop"], "correct": "B"},
+        {"question": "Which keyword is used to immediately exit a 'while True' loop?","choices": ["A) stop", "B) exit", "C) break"], "correct": "C"},
+        {"question": "When is the condition of a 'while' loop checked in Python?","choices": ["A) Before each iteration", "B) Only after the loop finishes", "C) Only once at the very end"],"correct": "A"},
+        {"question": "What numbers does range(4) generate in a Python for loop?","choices": ["A) 1, 2, 3, 4", "B) 0, 1, 2, 3", "C) 0, 1, 2, 3, 4"], "correct": "B"},
+        {"question": "In 'count = 1; while count <= 5:', what happens if you forget 'count += 1'?","choices": ["A) It creates an infinite loop that never stops", "B) Python automatically adds 1","C) The loop runs only once"], "correct": "A"},
+        {"question": "What is each single round or cycle of a loop called?","choices": ["A) A condition", "B) An iteration", "C) A variable"], "correct": "B"},
+        {"question": "In 'while count <= 5:', what value of count makes the condition False and stops the loop?","choices": ["A) 5", "B) 6", "C) 1"], "correct": "B"},
+        {"question": "How many times will 'for number in range(4): print(\"Study Python\")' print the message?","choices": ["A) 3 times", "B) 4 times", "C) 5 times"], "correct": "B"},
+        {"question": "What symbol must be placed at the end of a 'for' or 'while' loop header?","choices": ["A) Semicolon (;)", "B) Colon (:)", "C) Period (.)"], "correct": "B"},
+        {"question": "Which loop repeats a block of code as long as a condition remains True?","choices": ["A) while loop", "B) if-else statement", "C) print() function"], "correct": "A"},
+        {"question": "In 'for variable in sequence:', what is the role of 'variable'?","choices": ["A) It stops the loop early", "B) It receives each item one by one during every iteration","C) It counts only odd numbers"], "correct": "B"},
+        {"question": "In your 'while True' example, what input stops the program?","choices": ["A) Typing 'X' or 'x'", "B) Typing any number", "C) Pressing Spacebar"], "correct": "A"},
+        {"question": "How does Python know which statements belong inside the body of a loop?","choices": ["A) By wrapping them in { }", "B) By indentation (spaces/Tab)","C) By writing 'end' at the bottom"], "correct": "B"},
+        {"question": "What is the exact output of 'for number in range(1, 6): print(number)'?","choices": ["A) 1, 2, 3, 4, 5", "B) 0, 1, 2, 3, 4, 5", "C) 2, 3, 4, 5, 6"], "correct": "A"},
+        {"question": "What does 'count += 1' do inside a while loop?","choices": ["A) Resets count back to 1", "B) Adds 1 to count on each round", "C) Multiplies count by 1"],"correct": "B"},
+        {"question": "Which loop is best when you want to repeat code for each item in a fixed sequence like range()?","choices": ["A) for loop", "B) nested if", "C) input()"], "correct": "A"},
+        {"question": "When does a 'while' loop stop running?","choices": ["A) When its condition becomes False (or hits a break)", "B) When its condition becomes True","C) After exactly 10 rounds"], "correct": "A"}
+    ]
+
+}
+
+
 os.system("")
 
 def hex_color(hex_code):
@@ -294,8 +370,11 @@ while (a):
             print(f'     Numbers or Integer/Float print directly without quotation marks.\n')
             print(f"  {RI}Correct way{RESET}  ")
             print(f" {CO}  1 print(19){RESET}  Note: this is treated as numbers \n\n")
+            print(f'   2 {COMM}#This is treated as numbers.{RESET}"\n\n')
             print(f" \n {WR}Incorrect way{RESET} ")
-            print(f" {CO}  1 print('19'){RESET}  Note: this is treated as numbers \n\n")
+            print(f" {CO}  1 print('19'){RESET}")
+            print(f'   2 {COMM}#This is treated as text.{RESET}"\n\n')
+
 
             while True:
                 gets = input("Do you understand the lesson about print()? (Y/N): ").strip().upper()
@@ -361,7 +440,9 @@ while (a):
             print(f"   4 comment.")
             print(f'   5 """')
             print(f"   6 ")
-            print(f'   7 print("Hello"){RESET}  Note: The code inside triple quotes is ignored by Python.\n\n')
+            print(f'   7 print("Hello"){RESET} ')
+            print(f'   8 {COMM}#The code inside triple quotes is ignored by Python.{RESET}"\n\n')
+
 
             while True:
                 gets = input("Do you understand the lesson about comments? (Y/N): ").strip().upper()
@@ -475,6 +556,83 @@ while (a):
                 else:
                     print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
 
+        elif lesson == "E":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON DATA TYPES{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Data types{RESET} are categories that tell Python {C}what kind of data a variable stores{RESET}')
+            print(f' and determine the type of value a variable can hold and what operations can be performed on it.\n')
+
+            print(f"   1. Basic Data Types ")
+            print(f"       A. Integer            {CO}(int){RESET}          (10, 25, -7, 100)")
+            print(f"        {C}    - stores whole numbers (no decimal part){RESET}")
+
+            print(f"       B. Float              {CO}(float){RESET}        (12.5, 3.14, -0.001, 2.0)")
+            print(f"        {C}    - stores numbers with a decimal point{RESET}")
+
+            print(f'       C. String             {CO}(str){RESET}          ("Hello", "Juan", "CCST")')
+            print(f"        {C}    - stores text or characters inside quotes{RESET}")
+
+            print(f"       D. Boolean            {CO}(bool){RESET}         (True, False)")
+            print(f"        {C}    - represents one of two values: True or False{RESET}\n\n")
+
+            print(f"   2. Assigning & Outputting Values\n")
+            print(f"  {RI}Example{RESET}  ")
+            print(f' {CO}  1 name = "Knicolee"        {COMM}# str (string){RESET}')
+            print(f" {CO}  2 age = 19              {COMM}# int (integer){RESET}")
+            print(f" {CO}  3 grade = 95.50          {COMM}# float (decimal){RESET}")
+            print(f" {CO}  4 is_enrolled = True    {COMM}# bool (boolean){RESET}")
+            print(f" {CO}  6 print(name)           {COMM}# prints Knicolee{RESET}")
+            print(f" {CO}  7 print(age)            {COMM}# prints 19{RESET}")
+            print(f" {CO}  8 print(grade)          {COMM}# prints 95.50{RESET}")
+            print(f" {CO}  9 print(is_enrolled)    {COMM}# prints True{RESET}\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about data types? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of data types like labels on different kinds of containers:")
+                    print(f"   • {C}int:{RESET} Whole counting numbers without a dot (like 20).")
+                    print(f"   • {C}float:{RESET} Numbers with a decimal dot (like 89.5).")
+                    print(f'   • {C}str:{RESET} Words or text wrapped in quotes (like "Maria" or "CCST").')
+                    print(f"   • {C}bool:{RESET} Only two possible switches: True or False.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Is grade = 89.5 a float data type in Python? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Numbers with a decimal point like 89.5 belong to the float data type.", is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! float stores numbers with a decimal point.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = bool stores only True or False, while str stores text inside quotes.")
+                print("  N = bool stores decimal numbers, while str stores whole numbers.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! bool represents True or False, and str represents text inside quotes.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! bool is for True/False values and str is for text inside quotes.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+
         elif lesson == "F":
             print('\n------------------------------------------')
             print(f'{G}  PYTHON ARITHMETIC OPERATORS{RESET}')
@@ -511,7 +669,9 @@ while (a):
             print(f"   2 b = 10")
             print(f"   3 result = a + b - 5")
             print(f"   4 {COMM} # result = 10 + 10 - 5{RESET}")
-            print(f'{CO}   5 print("The result is:", result){RESET}  Note: Output is 15\n\n')
+            print(f'{CO}   5 print("The result is:", result){RESET}')
+            print(f'   6 {COMM}#Output is "15".{RESET}"\n\n')
+
 
             while True:
                 gets = input("Do you understand the lesson about arithmetic operators? (Y/N): ").strip().upper()
@@ -668,7 +828,7 @@ while (a):
 
         lesson = (input("What do want to learn: ")).upper().strip()
 
-        if lesson != "A" and lesson != "B" and lesson != "C" and lesson != "D" and lesson != "E" and lesson != "F" and lesson != "G":
+        if lesson != "A" and lesson != "B" and lesson != "C" and lesson != "D":
             print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
             conti = input("Want to continue: (Y/N) ").upper().strip()
             if conti == "Y":
@@ -771,5 +931,409 @@ while (a):
                     show_result("Pythoniee Result", "Correct! == checks equality and != checks inequality in Python.",is_correct=True)
                     break
 
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "B":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON CONDITIONAL STATEMENTS{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Conditional statements{RESET} allow your program to {C}make decisions{RESET} and run different code')
+            print(f'  depending on whether a condition evaluates to {RI}True{RESET} or {WR}False{RESET}.\n')
+
+            print(f"   1. The If Statement\n")
+            print(f'     Executes a block of code only when a condition is {RI}True{RESET}. If {WR}False{RESET}, the indented block is skipped.')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 age = 20")
+            print(f"   2 if age >= 18:")
+            print(f"   3     print('You are an adult.'){RESET}")
+            print(f'   4 {COMM}#Output is "You are an adult.{RESET}"\n\n')
+
+            print(f"   2. The if-else Statement\n")
+            print(f'     Provides an alternative path: the {C}if{RESET} block runs when {RI}True{RESET}, and the {C}else{RESET} block runs when {WR}False{RESET}.')
+            print(f'     and only one of the blocks will be executed.')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 score = 65")
+            print(f"   2 if score >= 75:")
+            print(f'   3     print("Passed")')
+            print(f"   4 else:")
+            print(f'   5     print("Failed"){RESET}\n\n')
+            print(f'   6 {COMM}#Output is "Failed" (65 is less than 75.{RESET})"\n\n')
+
+            print(f"   3. The if-elif-else Statement\n")
+            print(f'     Used when there are {C}multiple conditions{RESET} to evaluate.')
+            print(f'     Python checks from top to bottom and executes only the {C}first condition that is True{RESET}.')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 score = 85")
+            print(f"   2 if score >= 90:")
+            print(f'   3     print("Excellent")')
+            print(f"   4 elif score >= 80:")
+            print(f'   5     print("Very Good")')
+            print(f"   6 elif score >= 75:")
+            print(f'   7     print("Passed")')
+            print(f"   8 else:")
+            print(f'   9     print("Failed"){RESET}')
+            print(f'   10 {COMM}#Output is "Very Good" (85 >= 80 is the first True condition).{RESET})"\n\n')
+
+
+            while True:
+                gets = input("Do you understand the lesson about conditional statements? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of conditional statements like choosing paths at a fork in the road:")
+                    print(f"   • {C}if:{RESET} Check one rule—if it is True, do the indented action.")
+                    print(f"   • {C}if-else:{RESET} Pick between two choices—if True do the first, otherwise do the else.")
+                    print(f"   • {C}if-elif-else:{RESET} Check a list of rules from top to bottom and stop at the very first True one.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. In an if-else statement, can both the if block and else block run at the same time? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result", "Wrong! Only one path runs—either the if block (True) or the else block (False).", is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result", "Correct! Python executes only one block in an if-else structure.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = Python checks if-elif-else from top to bottom and runs only the first True condition.")
+                print("  N = Python runs every single elif condition that evaluates to True.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Once a condition is True, Python runs that block and skips the remaining elif/else blocks.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Python checks top to bottom and executes only the first True condition.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "C":
+            print('\n------------------------------------------')
+            print(f'{G}  NESTED CONDITION IN PYTHON{RESET}')
+            print('------------------------------------------\n')
+            print(f' A {C}nested condition{RESET} is a {C}condition inside another condition{RESET}.')
+            print(f' the inner condition is checked {C}only if the outer condition is True{RESET}.\n')
+
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 if condition1:          {RESET} ")
+            print(f'   2 {COMM}#First condition is checked.{RESET}')
+            print(f" {CO}  3     if condition2:      {RESET}")
+            print(f'   4 {COMM}#Second condition runs ONLY if condition1 is True.{RESET}')
+            print(f" {CO}  5         print('yes yes')")
+            print(f" {CO}  5     else:")
+            print(f" {CO}  7         print('aray kopo'")
+            print(f" {CO}  8 else:                   {RESET}")
+            print(f'   9 {COMM}#Runs if condition1 is False".{RESET}')
+            print(f" {CO}  10     print('Maliiii'){RESET}\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about nested conditions? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of a nested condition like opening two doors in order:")
+                    print(f"   • {C}Outer door first:{RESET} Python checks the first 'if' (like checking if gender is M or F).")
+                    print(f"   • {C}Inner door second:{RESET} Once inside that branch, Python checks the second 'if' (like checking age).")
+                    print(f"   • {C}Indentation shows who belongs where:{RESET} Extra spaces tell Python which 'if' owns which lines.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Is the inner condition checked if the outer condition is False? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result", "Wrong! The inner condition is checked only when the outer condition is True.", is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result", "Correct! Python only enters and checks the inner condition if the outer condition is True.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = In the debutant code, entering gender 'M' and age 19 prints 'You are a male, but not a debutant yet.'")
+                print("  N = In the debutant code, entering gender 'M' and age 19 prints 'You are a MALE DEBUTANT.'")
+                ques2 = input("   2. Which output is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Since 19 is less than 21, the inner else block runs.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Gender is 'M' (True), then age >= 21 is False (19 < 21), so the inner else runs.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "D":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON LOGICAL OPERATORS{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Logical operators{RESET} are used to {C}combine or reverse conditions{RESET} in a Python program.')
+            print(f' Note: They are commonly used with {C}if{RESET}, {C}elif{RESET}, and {C}else{RESET}.\n')
+
+            print(f"   1. Truth Table ")
+            print(f"       A. AND               (and)          (5 > 2 and 10 > 5  = True)")
+            print(f"        {C}    - returns True only when ALL conditions are True{RESET}")
+
+            print(f"       B. OR                (or)          (5 > 2 or 10 < 5   = True)")
+            print(f"        {C}    - returns True when at least ONE condition is True (KAHIT ISA LANG TRUE){RESET}")
+
+            print(f"       C. NOT               (not)          (not(5 > 2)        = False)")
+            print(f"        {C}    - reverses the result of a condition (BALIKTARIN){RESET}\n\n")
+
+            print(f"  {RI}Correct{RESET}  ")
+            print(f"    {CO}and{RESET} Example:")
+            print(f" {CO}      1  age = 20")
+            print(f"       2  has_id = True")
+            print(f"       3  if age >= 18 and has_id:")
+            print(f'       4      print("You are allowed to enter.")')
+            print(f"       5  else:")
+            print(f'       6      print("You are not allowed to enter."){RESET}')
+            print(f"       7  {COMM}#True and True = {RI}True{RESET} | Any False = {WR}False{RESET}\n")
+
+            while True:
+                gets = input("Do you understand the lesson about logical operators? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Easy ways to remember the 3 logical operators:")
+                    print(f"   - {C}AND (LAHAT DAPAT TRUE):{RESET} Both conditions must be True to get True.")
+                    print(f"   - {C}OR (KAHIT ISA LANG TRUE):{RESET} As long as at least one condition is True, the result is True.")
+                    print(f"   - {C}NOT (BALIKTARIN ANG RESULT):{RESET} Flips True to False, and False to True.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. If day = 'Saturday', does (day == 'Saturday' or day == 'Sunday') evaluate to True? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! With 'or' (kahit isa lang True), since day == 'Saturday' is True, the whole result is True.", is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! True or False equals True because at least one condition is True.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = If is_raining = False, then 'not is_raining' becomes True.")
+                print("  N = If is_raining = False, then 'not is_raining' stays False.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! The 'not' operator reverses the result (baliktad), so not False becomes True.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! 'not' flips False into True, so 'You can go outside.' prints.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        else:
+            print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+            conti = input("Want to continue: (Y/N) ").upper().strip()
+            if conti == "Y":
+                continue
+            elif conti == "N":
+                print(fr"{C} _____________  __     __  ____        {RESET}    ")
+                print(fr"{G}|_____   _____| \  \ /  /  \  /         {RESET}    ")
+                print(fr"{WR}     |   |       \  v  /    \/              {RESET}                   ")
+                print(fr" {CO}    |   |        |   |     __      {RESET}")
+                print(fr"{COMM}     |   |        |   |    |__|        {RESET}  ")
+                print(fr" {RI}    |___|        |___|            {RESET}  ")
+                print(f"{C}  F O R  U S I N G  P Y T H O N I E E !  {RESET}")
+                break
+
+    elif term == "3":
+        print("\n------------------------------------------")
+        print(f"{G}  A V A I L A B L E  L E S S O N    {RESET}      ")
+        print("------------------------------------------\n")
+        print(f"  {C} A                       For Loop")
+        print(f"   B                       While Loop{RESET}\n\n")
+
+        lesson = (input("What do want to learn: ")).upper().strip()
+
+        if lesson != "A" and lesson != "B" and lesson != "C" and lesson != "D":
+            print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+            conti = input("Want to continue: (Y/N) ").upper().strip()
+            if conti == "Y":
+                continue
+
+            elif conti == "N":
+                print(fr"{C} _____________  __     __  ____        {RESET}    ")
+                print(fr"{G}|_____   _____| \  \ /  /  \  /         {RESET}    ")
+                print(fr"{WR}     |   |       \  v  /    \/              {RESET}                   ")
+                print(fr" {CO}    |   |        |   |     __      {RESET}")
+                print(fr"{COMM}     |   |        |   |    |__|        {RESET}  ")
+                print(fr" {RI}    |___|        |___|            {RESET}  ")
+                print(f"{C}  F O R  U S I N G  P Y T H O N I E E !  {RESET}")
+                break
+
+
+        elif lesson == "A":
+            print(f' {C}Iteration{RESET} simply means {C}repeating an action{RESET}.')
+            print(f' In programming, instead of typing over and over you can use loops to')
+            print(f' {C}runs the same set of instructions over and over{RESET} every single round or cycle is called an {C}iteration{RESET}.\n')
+
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON FOR LOOP{RESET}')
+            print('------------------------------------------\n')
+            print(f' A {C}for loop{RESET} is used to {C}repeat a block of code{RESET} for each item in a sequence (like numbers from {C}range(){RESET}).')
+            print(f' Always put a {C}colon (:){RESET} after the loop header and {C}indent{RESET} the loop body.\n')
+
+            print(f"   1. Syntax & Parts ")
+            print(f" {CO}       for variable in sequence:")
+            print(f"           statement(s){RESET}\n")
+            print(f"       A. Variable                  (e.g., number)")
+            print(f"        {C}    - receives each item one by one during every iteration{RESET}")
+
+            print(f"       B. Sequence                  (e.g., range(4) or range(1, 6))")
+            print(f"        {C}    - the collection or range of items to loop through{RESET}")
+
+            print(f"       C. Statement(s)              (indented lines inside the loop)")
+            print(f"        {C}    - the loop body that repeats on every round{RESET}\n\n")
+
+            print(f"  {RI}Correct{RESET}  ")
+            print(f"      1  for number in range(1, 6){RESET}  (Counting from Start to Stop):")
+            print(f"      2         print(number){RESET}")
+            print(f"      3  {COMM}#Output are '1, 2, 3, 4, 5' because start value is 1 and stop efore 6\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about for loops? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Easy ways to remember how a for loop works:")
+                    print(f"   • {C}Automatic Repeater:{RESET} Instead of writing print() 5 times, a for loop repeats it for you.")
+                    print(f"   • {C}range(stop):{RESET} Starts at 0 and counts up to stop - 1 (e.g., range(4) runs 4 times: 0, 1, 2, 3).")
+                    print(f"   • {C}range(start, stop):{RESET} Starts at 'start' and stops right BEFORE 'stop' (e.g., range(1, 6) gives 1 to 5).\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. In range(1, 6), is the number 6 included in the output? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result", "Wrong! The stop value (6) is excluded, so range(1, 6) produces 1, 2, 3, 4, and 5.", is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result", "Correct! Start value 1 is included, while stop value 6 is excluded.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = Use a colon (:) after the loop header and indent the loop body.")
+                print("  N = No colon or indentation is needed inside a Python for loop.")
+                ques2 = input("   2. Which syntax rule is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Python requires a colon (:) at the end of the for line and indentation for the loop body.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Always put a colon (:) after the header and indent the statements inside.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "B":
+            print(f' {C}Iteration{RESET} simply means {C}repeating an action{RESET}.')
+            print(f' In programming, instead of typing over and over you can use loops to')
+            print(f' {C}runs the same set of instructions over and over{RESET} every single round or cycle is called an {C}iteration{RESET}.\n')
+
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON WHILE LOOP{RESET}')
+            print('------------------------------------------\n')
+            print(f' A {C}while loop{RESET} repeats a block of code {C}as long as a condition remains True{RESET}.')
+            print(f' Unlike a for loop (which runs a set number of times), a while loop runs {C}until the condition becomes False{RESET}.\n')
+
+            print(f"   1. Syntax & Parts ")
+            print(f" {CO}       while condition:")
+            print(f"           statement(s){RESET}\n")
+            print(f"       A. Condition                (checked BEFORE each iteration)")
+            print(f"        {C}    - if True, the indented code runs; if False, the loop stops immediately{RESET}")
+
+            print(f"       B. Statement(s)            (indented lines inside the loop)")
+            print(f"        {C}    - the actions that repeat, plus an update step so the loop can eventually end{RESET}\n\n")
+
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}     1  num = 3")
+            print(f"      1  while num >= 1:")
+            print(f"      2         print(number){RESET}")
+            print(f"      4         number -= 1 {RESET}")
+            print(f"      3  {COMM}#Output are '5, 4, 3, 2, 1' because start value is 5 and the loop will run and minus the 5 to 1\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about while loops? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Easy ways to remember how a while loop works:")
+                    print(f"   - {C}Keep going while True:{RESET} Python checks the rule before every round—if True, keep repeating.")
+                    print(f"   - {C}Always update your counter:{RESET} Use count += 1 so the condition eventually turns False and stops.")
+                    print(f"   - {C}while True + break:{RESET} Repeats a menu or program until the user enters an exit key (like 'X') to break out.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. In 'while count <= 5:', does the loop stop when count becomes 6? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! When count becomes 6, 6 <= 5 is False, so the while loop stops.", is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Since 6 <= 5 is False, the condition fails and the loop ends.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = 'break' immediately stops and exits a while True loop.")
+                print("  N = 'break' skips one line and keeps the while True loop running forever.")
+                ques2 = input("   2. What does 'break' do inside a while True loop? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! 'break' immediately terminates and exits the loop.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! 'break' exits the loop right away when the user wants to stop.", is_correct=True)
+                    break
                 else:
                     print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
