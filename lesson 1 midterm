@@ -1,0 +1,775 @@
+import sys
+import random
+import pygame
+
+import os
+import random
+import string
+import tkinter as tk
+
+os.system("")
+
+def hex_color(hex_code):
+    hex_code = hex_code.lstrip("#")
+    r, g, b = tuple(int(hex_code[i:i+2], 16) for i in (0, 2, 4))
+    return f"\033[38;2;{r};{g};{b}m"
+
+RESET = "\033[0m"
+C = hex_color("#FDFD96")
+G   = hex_color("#98FB98")
+WR    = hex_color("#FF4C4C")
+RI  = hex_color("#28A745")
+CO = hex_color("#93C5FD")
+COMM = hex_color("#808080")
+
+def show_result(title, message, is_correct=True):
+    popup = tk.Tk()
+    popup.title(title)
+    popup.geometry("440x180")
+
+    pale_yellow   = "#F9F8B4"
+    medium_yellow = "#F7EB88"
+    yellow = "#889F7D"
+
+    popup.configure(bg=pale_yellow)
+    popup.resizable(False, False)
+
+    border_color = "#32CD32" if is_correct else "#FF4C4C"
+    status_text = "CORRECT!" if is_correct else "WRONG!"
+
+    frame = tk.Frame(popup, bg=medium_yellow, highlightbackground=border_color, highlightthickness=2)
+    frame.pack(fill="both", expand=True, padx=12, pady=12)
+
+    status_lbl = tk.Label(
+        frame,
+        text=f"  {status_text}  ",
+        font=("Arial", 13, "bold"),
+        fg="#000000",
+        bg=yellow
+    )
+    status_lbl.pack(pady=(12, 6))
+
+    msg_lbl = tk.Label(
+        frame,
+        text=message,
+        font=("Arial", 11, "bold"),
+        fg="#000000",
+        bg=medium_yellow,
+        wraplength=390,
+        justify="center"
+    )
+    msg_lbl.pack(expand=True, pady=(0, 10))
+
+    ok_btn = tk.Button(
+        frame,
+        text="OK",
+        width=10,
+        font=("Arial", 10, "bold"),
+        fg="#000000",
+        bg=yellow,
+        activebackground=pale_yellow,
+        activeforeground="#000000",
+        command=popup.destroy
+    )
+    ok_btn.pack(pady=(0, 12))
+
+    popup.bind("<Return>", lambda e: popup.destroy())
+    popup.bind("<space>", lambda e: popup.destroy())
+    popup.focus_force()
+    popup.mainloop()
+
+
+root = tk.Tk()
+root.title("PYTHONIEE!")
+root.geometry("900x550")
+root.configure(bg="#05290e")
+root.resizable(False, False)
+
+letters = string.ascii_letters + "!"
+target = "Welcome to PYTHONIEE!"
+
+current = [""] * len(target)
+after_id = None
+
+dark = "#12412A"
+yellow = "#FFFDD0"
+faded_yellow = "#889F7D"
+
+welcome_frame = tk.Frame(root, bg=dark)
+welcome_frame.pack(fill="both", expand=True)
+
+welcome_label = tk.Label(
+    welcome_frame,
+    text="",
+    font=("Arial", 34, "bold"),
+    fg=yellow,
+    bg=dark
+)
+welcome_label.pack(expand=True)
+
+continue_label = tk.Label(
+    welcome_frame,
+    text="",
+    font=("Arial", 14),
+    fg=faded_yellow,
+    bg=dark
+)
+continue_label.pack(pady=(0, 50))
+
+def close_welcome(event=None):
+    global after_id
+    if event and (event.keysym == "Return" or (event.char and event.char.isprintable())):
+        if after_id:
+            root.destroy()
+        print(f"{G}  _____  ___   ___ _________  __      __  _______  __    __  __  _____  _____                           ")
+        print(r" |      |\  \ /  /|___   ___||  |    |  ||  ___  ||  \  |  ||  ||  ___||  ___|                           ")
+        print(r" |  ()  | \  V  /     |  |   |  |____|  || |   | ||   \ |  ||  || |__  | |__                         ")
+        print(r" |  ____|  \   /      |  |   |   ____   || |   | ||    \|  ||  ||  __| |  __|                       ")
+        print(r" | |        | |       |  |   |  |    |  || |   | ||   \    ||  || |    | |             ")
+        print(r" | |        | |       |  |   |  |    |  || |___| ||   |\   ||  || |___ | |___                            ")
+        print(fr" |_|        |_|       |__|   |__|    |__||_______||___| \__||__||_____||_____|        {RESET}                        ")
+        print(f"        {C}              L E A R N I N G  S Y S T E M{RESET}\n")
+
+
+def enable_key_close():
+    continue_label.config(text="Press any key to continue")
+    root.focus_force()
+    root.bind("<KeyPress>", close_welcome)
+
+def animate(index=0):
+    global after_id
+    if index >= len(target):
+        welcome_label.config(text=target)
+        after_id = root.after(300, enable_key_close)
+        return
+
+    if target[index] == " ":
+        current[index] = " "
+        animate(index + 1)
+    else:
+        letter = random.choice(letters)
+        current[index] = letter
+        welcome_label.config(text="".join(current))
+
+        if letter == target[index]:
+            after_id = root.after(3, animate, index + 1)
+        else:
+            after_id = root.after(3, animate, index)
+
+animate(0)
+root.mainloop()
+a = True
+
+print("------------------------------------------")
+print(f"  {G}P Y T H O N I E E ! {RESET}         ")
+print("------------------------------------------\n")
+print("Where you can learn and have fun at the same time\n \n")
+print("Let's Start...\n")
+print(f"  Python is a widely-used programming language that was created by {C}Guido van Rossum{RESET} in {C}1991{RESET}\n")
+print(f"  Python is a high-level, interpreted, and general-purpose programming language  \n   designed {C}to be simple{RESET}, {C}readable{RESET}, and {C}easy to learn{RESET}\n")
+
+while (a):
+    print("------------------------------------------")
+    print(f"{G}  A V A I L A B L E  T E R M    {RESET}      ")
+    print("------------------------------------------\n")
+    print(f"   {C}1                         Prelim")
+    print(f"   2                         Midterm")
+    print(f"   3                         Final")
+    print(f"   4                         {RI}PYTHONIEE GAME{RESET}")
+    print(f" {C}  5           {RESET}              {WR}EXIT{RESET}\n")
+
+    term = input("What do want to learn: ").strip()
+
+    if term == "1":
+        print("\n------------------------------------------")
+        print(f"{G}  A V A I L A B L E  L E S S O N    {RESET}      ")
+        print("------------------------------------------\n")
+        print(f"  {C} A                       Basic Syntax")
+        print(f"   B                       Printing")
+        print(f"   C                       Comments")
+        print(f"   D                       Variable")
+        print(f"   E                       Data Type")
+        print(f"   F                       Arithmetic Operation")
+        print(f"   G                       Input{RESET}\n")
+
+        lesson = (input("What do want to learn: ")).upper().strip()
+
+        if lesson != "A" and lesson != "B" and lesson != "C" and lesson != "D" and lesson != "E" and lesson != "F" and lesson != "G":
+            print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+            conti = input("Want to continue: (Y/N) ").upper().strip()
+            if conti == "Y":
+                continue
+            elif conti == "N":
+                print(fr"{C} _____________  __     __  ____        {RESET}    ")
+                print(fr"{G}|_____   _____| \  \ /  /  \  /         {RESET}    ")
+                print(fr"{WR}     |   |       \  v  /    \/              {RESET}                   ")
+                print(fr" {CO}    |   |        |   |     __      {RESET}")
+                print(fr"{COMM}     |   |        |   |    |__|        {RESET}  ")
+                print(fr" {RI}    |___|        |___|            {RESET}  ")
+                print(f"{C}  F O R  U S I N G  P Y T H O N I E E !  {RESET}")
+                break
+
+        elif lesson == "A":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON SYNTAX{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Syntax{RESET} refers to the {C}set of rules{RESET} that tells us how to correctly write a program in Python.\n')
+            print(f"   1. Python is Case-Sensitive")
+            print(f'     Python treats uppercase and lowercase letters differently.\n')
+            print(f"  {RI}Correct way{RESET} \n  ")
+            print(f" {CO}  1 nike = 'John' ")
+            print(f"   2 print(name){RESET} \n\n")
+            print(f"  {WR}Incorrect way{RESET} \n ")
+            print(f" {CO}  1 nike = 'John'  ")
+            print(f"   2 print(Name){RESET}\n \n")
+
+            print(f"   2. Indentation ")
+            print(f'     Unlike other programming languages, Python uses indentation (spaces) to define blocks of code.\n')
+            print(f"  {RI}Correct way {RESET}\n")
+            print(f" {CO}   edad = 18 ")
+            print(f"    if edad >= 18:")
+            print(f"      print('Adult'){RESET}\n")
+            print(f" {WR} Incorrect way {RESET} \n")
+            print(f"  {CO}  edad = 18 ")
+            print(f"    if edad >= 18:")
+            print(f"    print('Adult'){RESET}\n\n")
+
+
+            while True:
+                gets = input("Do you understand the lesson about syntax?(Y/N)").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of Python syntax like game rules:")
+                    print(f"   • {C}Capital letters matter:{RESET} 'ccst' and 'CCST' are two completely different things to Python.")
+                    print(f"   • {C}Spaces matter:{RESET} When you write an 'if' line ending with ':', press Tab or 4 spaces on the next line so Python knows what belongs inside it.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Is jomar and Jomar the same? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result","Wrong! Python treats uppercase and lowercase letters differently.",is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result", "Correct! Python is case-sensitive.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = Python uses indentation in conditions like if statements.")
+                print("  N = Python doesn't need indentation.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Python requires indentation (spaces) to define code blocks.",is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result","Correct! Python uses indentation for blocks like if statements.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == 'B':
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON PRINT {RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Print(){RESET} is function thst {C}displays information{RESET} on the screen.\n')
+            print(f"   1. Printing Text")
+            print(f'     Text or String must be encoled in quotation marks\n')
+            print(f"  {RI}Correct way{RESET}  ")
+            print(f" {CO}  1 print('Hello Sir Jo') {RESET} \n\n")
+            print(f"\n  {WR}Incorrect way{RESET} ")
+            print(f" {CO}  1 print(Hello Sir Jo) {RESET} \n\n")
+
+            print(f"   2. Printing Numbers")
+            print(f'     Numbers or Integer/Float print directly without quotation marks.\n')
+            print(f"  {RI}Correct way{RESET}  ")
+            print(f" {CO}  1 print(19){RESET}  Note: this is treated as numbers \n\n")
+            print(f" \n {WR}Incorrect way{RESET} ")
+            print(f" {CO}  1 print('19'){RESET}  Note: this is treated as numbers \n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about print()? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Print() is like a real-world printer that shows text, symbols, or number:")
+                    print(f"   • {C}Words:{RESET} need to put ' ' or \" \" around words so Python knows you mean text.")
+                    print(f"   • {C}Numbers:{RESET} no quotation marks.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Does text inside print() need quotation marks? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Text (strings) must be enclosed in quotation marks.",is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Text must be inside quotes like print('Hello').",is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = print(2005) treats 2005 as a number.")
+                print("  N = print('2005') treats '2005' as a number.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Quotes turn '19' into text (a string), not a number.",is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Numbers are printed without quotes so they stay numbers.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "C":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON COMMENTS{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Comments{RESET} are {C}ignored by Python{RESET}. They are used to {C}explain the code{RESET}.\n')
+            print(f"   1. Single-Line Comment")
+            print(f'     Uses the hash symbol (#). Comment continues until the end of the line.\n')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 # This is a comment")
+            print(f"   2 ")
+            print(f'   3 print("Hello"){RESET} \n\n')
+
+            print(f"   2. Multi-Line Comment")
+            print(f'     Uses triple quotes ("""). Comment continues until the closing """.\n')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f' {CO}  1 """')
+            print(f"   2 This is")
+            print(f"   3 a multi-line")
+            print(f"   4 comment.")
+            print(f'   5 """')
+            print(f"   6 ")
+            print(f'   7 print("Hello"){RESET}  Note: The code inside triple quotes is ignored by Python.\n\n')
+
+            while True:
+                gets = input("Do you understand the lesson about comments? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of comments like sticky notes for humans that Python completely skips:")
+                    print(f"   - {C}One-line note (#):{RESET} Anything after # on that line is ignored.")
+                    print(f'   - {C}Multi-line note ("""): {RESET}Longer explanations.\n')
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print(" Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Does Python run or execute text inside a comment? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result", "Wrong! Comments are completely ignored by Python.",is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result","Correct! Python ignores comments; they are only for explaining code.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = Single-line comments start with # and multi-line comments use triple quotes.")
+                print("  N = Single-line comments start with // and multi-line comments use /* */.")
+                ques2 = input("   2. Which is correct in Python? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result","Wrong! Python uses # for single-line and triple quotes for multi-line comments.",is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Python uses # and triple quotes for comments.",is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "D":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON VARIABLES{RESET}')
+            print('------------------------------------------\n')
+            print(f' In programming, we {C}store data in variables{RESET}. We assign a value using the {C}= (assignment operator){RESET}.\n')
+            print(f' {CO}  1 first_name = "John"{RESET}  Note: first_name is the variable name, "John" is the value\n\n')
+            print(f"   1. Variable Naming Rules")
+            print(f'     - Can have a short name (like x, y) or a descriptive name (age, num1, noba, pyatos).')
+            print(f'     - Must start with a letter or the underscore (_) character.')
+            print(f'     - Cannot start with a number.\n')
+            print(f"  {RI}Correct way{RESET}  ")
+            print(f" {CO}  1 age = 20")
+            print(f"   2 _pira = 100")
+            print(f"   3 pyatos = 50{RESET} \n\n")
+            print(f"  {WR}Incorrect way{RESET} ")
+            print(f" {CO}  1 1num = 10")
+            print(f"   2 2too = 30")
+            print(f'   3 123kanya_kanya_na = "Regie"{RESET} \n\n')
+
+            print(f"   2. Case-Sensitive Names\n")
+            print(f'     Variable names are {C}case-sensitive{RESET} (age and AGE are two different variables).')
+            print(f"  {RI}Example{RESET}  ")
+            print(f" {CO}  1 mark_regie = 18")
+            print(f"   2 Mark_Regie = 25{RESET}  Note: These store two separate values\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about variables? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of a variable like a labeled storage box:")
+                    print(f"   • {C}Store with = :{RESET} Write label = item (like age = 18) to put a value inside.")
+                    print(f"   • {C}Naming rule:{RESET} Start the label with a letter or _ (never a number like 1stName).")
+                    print(f"   • {C}Case matters:{RESET} 'age' and 'AGE' are two different boxes.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print(" Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Is 1stValue = 10 a valid variable name in Python? (Y/N): ").strip().upper()
+                if ques1 == 'Y':
+                    show_result("Pythoniee Result", "Wrong! A variable name cannot start with a number.", is_correct=False)
+                    break
+                elif ques1 == 'N':
+                    show_result("Pythoniee Result", "Correct! Variable names must start with a letter or underscore (_).", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = knicole and Knicole are two different variables.")
+                print("  N = cj and CJ are the exact same variable.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Variable names are case-sensitive, so age and AGE are different.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Python treats age and AGE as two separate variables.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "F":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON ARITHMETIC OPERATORS{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Arithmetic operators{RESET} are symbols used to perform {C}mathematical calculations{RESET} on numbers.\n')
+
+            print(f"   1. Operator ")
+            print(f"       A. Addition           {CO}(+){RESET}            (1 + 1   = 2")
+            print(f"        {C}    - adding two numbers{RESET}")
+
+            print(f"       B. Subtraction        {CO}(-){RESET}            (5 - 1     = 4")
+            print(f"        {C}    - subtracting two numbers{RESET}")
+
+            print(f"       C. Multiplication     {CO}(*){RESET}            (5 * 5     = 25")
+            print(f"        {C}    - multiplying two numbers{RESET}")
+
+            print(f"       D. Division           {CO}(/){RESET}            (15 / 5    = 3.0")
+            print(f"        {C}    - divide and returns a decimal{RESET}")
+
+            print(f"       E. Floor Division     {CO}(//){RESET}           (17 // 3   = 5")
+            print(f"        {C}    - devide and returns whole number part{RESET}")
+
+            print(f"       F. Modulus            {CO}(%){RESET}            (5 % 2     = 1")
+            print(f"        {C}    - returns the remainder{RESET}")
+
+            print(f"       G. Exponentiation     {CO}(**){RESET}           (5 ** 3    = 125")
+            print(f"        {C}    - raises to a power{RESET}\n")
+
+            print(f"   2. Expressions & Order of Operations (PEMDAS)")
+            print(f'       An {C}expression{RESET} combines values, variables, and operators to produce a result.')
+            print(f'       Python solves math using {C}PEMDAS{RESET}: Parentheses > Exponents > Multiplication > Division > Addition > Subtraction.\n')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 a = 10")
+            print(f"   2 b = 10")
+            print(f"   3 result = a + b - 5")
+            print(f"   4 {COMM} # result = 10 + 10 - 5{RESET}")
+            print(f'{CO}   5 print("The result is:", result){RESET}  Note: Output is 15\n\n')
+
+            while True:
+                gets = input("Do you understand the lesson about arithmetic operators? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of Python like a smart calculator with a few special symbols:")
+                    print(f"   • {C}Normal math:{RESET} Use * for multiply, / for decimal division, and ** for powers.")
+                    print(f"   • {C}Special division:{RESET} // gives only the whole number, while % gives the leftover remainder.")
+                    print(f"   • {C}PEMDAS rule:{RESET} Python always solves parentheses () and exponents ** before + and -.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. Does 10 % 3 return the remainder (1)? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result",
+                                "Wrong! The modulus operator (%) returns the remainder of division, so 10 % 3 is 1.",is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result","Correct! % (Modulus) gives the remainder left over after dividing.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print(
+                    "\n  Y = Python follows PEMDAS (Parentheses, Exponents, Multiplication/Division, Addition/Subtraction).")
+                print("  N = Python always solves math strictly from left to right without PEMDAS.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result","Wrong! Python follows PEMDAS, so parentheses and multiplication happen before addition.", is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result",
+                                "Correct! Python evaluates expressions using PEMDAS order of operations.",is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        elif lesson == "G":
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON INPUT{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Input(){RESET} is a function used to {C}accept data from the user{RESET} like responding).')
+            print(f'    Note: All input is {C}string (text) type by default{RESET}.\n')
+
+            print(f"   1. Getting User Input & Formatting Output")
+            print(f'     Syntax: {CO}variable = input("Prompt message: "){RESET}')
+            print(f'     Use a {C}comma (,){RESET} inside print() to display text and variables together.\n\n"')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f' {CO}  1 name = input("Enter your name: ")')
+            print(f'   2 edad = input("Enter your age: ")')
+            print(f'   3 print("Name: ", name)')
+            print(f'   4 print("Age: ", edad){RESET} \n\n')
+
+            print(f"   2. Converting Input to Other Data Types")
+            print(f'  {C} A. Integer Input (whole numbers):{RESET} Wrap input() with {C}int(){RESET}\n"')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f' {CO}  1 edad = int(input("Enter your age: "))')
+            print(f'   2 print(f"You are {{edad}} years old"){RESET} \n\n"')
+
+            print(f'  {C} B. Float Input (decimal numbers):{RESET} Wrap input() with {C}float(){RESET}\n"')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f' {CO}  1 bagsak = float(input("Enter your grade: "))')
+            print(f'   2 print(f"Your grade is {{bagsak}}"){RESET} \n\n"')
+
+            print(f'  {C} C. Boolean Input (True or False using conditions):{RESET}\n"')
+            print(f"  {RI}Correct{RESET}  ")
+            print(f' {CO}  1 sagot = input("Are you a student? (yes/no): ")')
+            print(f'   2 is_student = sagot.lower() == "yes"')
+            print(f'   3 print("Student status:", is_student){RESET} \n\n')
+
+            while True:
+                gets = input("Do you understand the lesson about input()? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+                    print("  Think of input() like a question box that waits for the user to type:")
+                    print(f"   - {C}String by default:{RESET} input() always saves what the user types as text (string).")
+                    print(f"   - {C}Numbers need conversion:{RESET} Wrap with int(input()) for whole numbers or float(input()) for decimals.")
+                    print(f"   - {C}True/False check:{RESET} Compare the answer using == (like answer.lower() == 'yes').\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input(
+                    "   1. By default, does input() store user data as a string (text)? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! All input from input() is string type by default.", is_correct=False)
+                    break
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! input() always returns a string unless you convert it.",is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = Use float(input()) to accept decimal numbers like 92.5.")
+                print("  N = Use str(input()) to accept decimal numbers like 92.5.")
+                ques2 = input("   2. Which is correct? (Y/N): ").strip().upper()
+
+                if ques2 == 'N':
+                    show_result("Pythoniee Result",
+                                "Wrong! str() keeps it as text; float(input()) converts it to a decimal number.",
+                                is_correct=False)
+                    break
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result",
+                                "Correct! float(input()) converts user input into a decimal number.", is_correct=True)
+                    break
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+        else:
+            print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+            conti = input("Want to continue: (Y/N) ").upper().strip()
+            if conti == "Y":
+                continue
+            elif conti == "N":
+                print(fr"{C} _____________  __     __  ____        {RESET}    ")
+                print(fr"{G}|_____   _____| \  \ /  /  \  /         {RESET}    ")
+                print(fr"{WR}     |   |       \  v  /    \/              {RESET}                   ")
+                print(fr" {CO}    |   |        |   |     __      {RESET}")
+                print(fr"{COMM}     |   |        |   |    |__|        {RESET}  ")
+                print(fr" {RI}    |___|        |___|            {RESET}  ")
+                print(f"{C}  F O R  U S I N G  P Y T H O N I E E !  {RESET}")
+                break
+
+
+    elif term == "2":
+        print("\n------------------------------------------")
+        print(f"{G}  A V A I L A B L E  L E S S O N    {RESET}      ")
+        print("------------------------------------------\n")
+        print(f"  {C} A                       Relational Operators")
+        print(f"   B                       Condition Statement")
+        print(f"   C                       Nested Condition")
+        print(f"   D                       Logical Operators{RESET}\n")
+
+        lesson = (input("What do want to learn: ")).upper().strip()
+
+        if lesson != "A" and lesson != "B" and lesson != "C" and lesson != "D" and lesson != "E" and lesson != "F" and lesson != "G":
+            print(f"\n   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+            conti = input("Want to continue: (Y/N) ").upper().strip()
+            if conti == "Y":
+                continue
+            elif conti == "N":
+                print(fr"{C} _____________  __     __  ____        {RESET}    ")
+                print(fr"{G}|_____   _____| \  \ /  /  \  /         {RESET}    ")
+                print(fr"{WR}     |   |       \  v  /    \/              {RESET}                   ")
+                print(fr" {CO}    |   |        |   |     __      {RESET}")
+                print(fr"{COMM}     |   |        |   |    |__|        {RESET}  ")
+                print(fr" {RI}    |___|        |___|            {RESET}  ")
+                print(f"{C}  F O R  U S I N G  P Y T H O N I E E !  {RESET}")
+                break
+
+
+        elif lesson == "A":
+
+            print('\n------------------------------------------')
+
+            print(f'{G}  PYTHON RELATIONAL OPERATORS{RESET}')
+
+            print('------------------------------------------\n')
+
+            print(
+                f' {C}Relational operators{RESET} (also called {C}comparison operators{RESET}) are used to {C}compare two values{RESET}.')
+
+            print(f' Note: The result is always either {RI}True{RESET} or {WR}False{RESET}.\n')
+
+            print('\n------------------------------------------')
+            print(f'{G}  PYTHON RELATIONAL OPERATORS{RESET}')
+            print('------------------------------------------\n')
+            print(f' {C}Relational operators{RESET} (also called {C}comparison operators{RESET}) are used to {C}compare two values{RESET}.')
+            print(f' Note: The result is always either {RI}True{RESET} or {WR}False{RESET}.\n')
+
+            print(f"   1. Operator ")
+            print(f"       A. Equal to                  {CO}(==){RESET}           (10 == 10  = True)")
+            print(f"        {C}    - checks if two values are equal{RESET}")
+
+            print(f"       B. Not equal to              {CO}(!=){RESET}           (10 != 5   = True)")
+            print(f"        {C}    - checks if two values are not equal{RESET}")
+
+            print(f"       C. Greater than              {CO}(>){RESET}            (10 > 5    = True)")
+            print(f"        {C}    - checks if left value is bigger{RESET}")
+
+            print(f"       D. Less than                 {CO}(<){RESET}            (5 < 10    = True)")
+            print(f"        {C}    - checks if left value is smaller{RESET}")
+
+            print(f"       E. Greater than or equal to  {CO}(>=){RESET}           (10 >= 10  = True)")
+            print(f"        {C}    - checks if bigger or equal{RESET}")
+
+            print(f"       F. Less than or equal to     {CO}(<=){RESET}           (5 <= 10   = True)")
+            print(f"        {C}    - checks if smaller or equal{RESET}\n")
+
+            print(f"  {RI}Correct{RESET}  ")
+            print(f" {CO}  1 score = 85")
+            print(f"   2 print(score >= 75){RESET}  Note: Output is True (85 is greater than or equal to 75)\n\n")
+
+            while True:
+                gets = input("Do you understand the lesson about relational operators? (Y/N): ").strip().upper()
+                if gets == "N":
+                    print('\n------------------------------------------')
+                    print(f"{G}  SIMPLIFIED{RESET}")
+                    print('------------------------------------------\n')
+
+                    print("  Think of relational operators like asking Python a Yes-or-No question:")
+                    print(f"   - {C}Always True or False:{RESET} Comparing two numbers True (Yes) or False (No).")
+                    print( f"  - {C}Double equals (==):{RESET} Use == to check if two things are equal (single = is only for saving variables).")
+                    print(f"   - {C}Not equal (!=):{RESET} Checks if two values are different.\n")
+                    break
+
+                elif gets == "Y":
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            print("\n Lets test ur knowledge:\n\n")
+            while True:
+                ques1 = input("   1. If score = 85, does print(score >= 75) output True? (Y/N): ").strip().upper()
+                if ques1 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Since 85 is greater than or equal to 75, score >= 75 evaluates to True.", is_correct=False)
+                    break
+
+                elif ques1 == 'Y':
+                    show_result("Pythoniee Result", "Correct! Relational operators compare values and return True or False.", is_correct=True)
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
+
+            while True:
+                print("\n  Y = == checks if two values are equal, while != checks if they are not equal.")
+                print("  N = = checks if two values are equal, while <> checks if they are not equal.")
+                ques2 = input("   2. Which is correct in Python? (Y/N): ").strip().upper()
+                if ques2 == 'N':
+                    show_result("Pythoniee Result", "Wrong! Python uses == for equal to and != for not equal to.",is_correct=False)
+                    break
+
+                elif ques2 == 'Y':
+                    show_result("Pythoniee Result", "Correct! == checks equality and != checks inequality in Python.",is_correct=True)
+                    break
+
+                else:
+                    print(f"   {WR}Invalid input! Please enter only Y or N.{RESET}\n")
